@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -121,6 +122,14 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Initiating startup procedure...");
 
+			var browser = "chrome";
+			var processes = Process.GetProcessesByName(browser);
+
+			foreach (var process in processes)
+			{
+				process.Kill();
+			}
+
 			operations.ActionRequired += Operations_ActionRequired;
 			operations.ProgressChanged += Operations_ProgressChanged;
 			operations.StatusChanged += Operations_StatusChanged;
@@ -167,6 +176,12 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
+
+			var browser = "chrome";
+			var processes = Process.GetProcessesByName(browser);
+
+			foreach (var process in processes)
+				process.Kill();
 
 			splashScreen.Show();
 			splashScreen.BringToForeground();

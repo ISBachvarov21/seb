@@ -682,7 +682,7 @@ namespace SebWindowsConfig.Controls
 				CheckFileExists = true,
 				CheckPathExists = true,
 				Multiselect = false,
-				Filter = "PNG Images|*.png"
+				Filter = "PNG Images*.png"
 			};
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{

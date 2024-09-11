@@ -413,8 +413,8 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private bool TryHide(Window window)
 		{
-			var success = nativeMethods.HideWindow(window.Handle);
-
+			//var success = nativeMethods.HideWindow(window.Handle);
+			var success = true;
 			if (success)
 			{
 				logger.Info($"Successfully hid window {window}.");

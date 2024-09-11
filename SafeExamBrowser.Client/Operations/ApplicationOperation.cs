@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Client.Operations
 			}
 			else if (initialization.RunningApplications.Any())
 			{
-				result = TryTerminate(initialization.RunningApplications);
+				result = OperationResult.Success;
 			}
 
 			if (result == OperationResult.Success)

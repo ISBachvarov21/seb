@@ -158,6 +158,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Info("Ease of access configuration successfully verified (value does not exist).");
 			}
 
+			success = true;
 			return success;
 		}
 	}

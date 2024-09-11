@@ -65,7 +65,8 @@ namespace SafeExamBrowser.Server.Requests
 		{
 			response = default;
 
-			for (var attempt = 0; attempt < settings.RequestAttempts && (response == default || !response.IsSuccessStatusCode); attempt++)
+			for (var attempt = 0; attempt < settings.RequestAttempts && (response == default 
+				| !response.IsSuccessStatusCode); attempt++)
 			{
 				var request = BuildRequest(method, url, content, contentType, headers);
 
