@@ -105,7 +105,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 
 					if (currentUserName.StartsWith("ISBachvarov21") || currentUserName.StartsWith("Ivaylo") || currentUserName == "ISBachvarov21@codingburgas.bg" || currentUserName.StartsWith("IDDochev21") || currentUserName == "ISBachvarov21" || currentUserName == "IDDochev21" || currentUserName == "IDDochev21@codingburgas.bg")
 					{
-						MessageBox.Show("Starting Chrome");
+						//MessageBox.Show("Starting Chrome");
 						var processInfo = new ProcessStartInfo(browser + ".exe");
 						processInfo.UseShellExecute = true;
 						Process.Start(processInfo);
@@ -113,7 +113,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 				}
 				else
 				{
-					MessageBox.Show("Activation Chrome Window");
+					//MessageBox.Show("Activation Chrome Window");
 					foreach (var process in processes)
 					{
 						nativeMethods.ActivateWindow(process.MainWindowHandle);
