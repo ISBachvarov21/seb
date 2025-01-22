@@ -103,7 +103,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 					var currentUserName = Environment.UserName;
 					//MessageBox.Show($"Current user: {currentUserName}");
 
-					if (currentUserName.StartsWith("ISBachvarov21") || currentUserName.StartsWith("Ivaylo") || currentUserName == "ISBachvarov21@codingburgas.bg" || currentUserName.StartsWith("IDDochev21") || currentUserName == "ISBachvarov21" || currentUserName == "IDDochev21" || currentUserName == "IDDochev21@codingburgas.bg")
+					if (currentUserName.StartsWith("ISBachvarov21") || currentUserName.StartsWith("IYStoychev21") || currentUserName.StartsWith("imig") || currentUserName.StartsWith("Ivaylo") || currentUserName == "ISBachvarov21@codingburgas.bg" || currentUserName.StartsWith("IDDochev21") || currentUserName == "ISBachvarov21" || currentUserName == "IDDochev21" || currentUserName == "IDDochev21@codingburgas.bg")
 					{
 						//MessageBox.Show("Starting Chrome");
 						var processInfo = new ProcessStartInfo(browser + ".exe");
