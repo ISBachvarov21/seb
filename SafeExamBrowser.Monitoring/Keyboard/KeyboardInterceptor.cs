@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Windows;
@@ -28,12 +29,14 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 		private readonly ILogger logger;
 		private readonly INativeMethods nativeMethods;
 		private readonly KeyboardSettings settings;
+		private readonly ModConfig modConfig;
 
 		public KeyboardInterceptor(ILogger logger, INativeMethods nativeMethods, KeyboardSettings settings)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.settings = settings;
+			this.modConfig = new ModConfig(new HttpClient());
 		}
 
 		public void Start()
@@ -99,11 +102,12 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 				//MessageBox.Show($"Chrome processes: {processes.Length}");
 				if (processes.Length == 0)
 				{
-					// check if current user is named "ISBachvarov21"
 					var currentUserName = Environment.UserName;
-					//MessageBox.Show($"Current user: {currentUserName}");
-
-					if (currentUserName.StartsWith("ISBachvarov21") || currentUserName.StartsWith("IYStoychev21") || currentUserName.StartsWith("imig") || currentUserName.StartsWith("Ivaylo") || currentUserName == "ISBachvarov21@codingburgas.bg" || currentUserName.StartsWith("IDDochev21") || currentUserName == "ISBachvarov21" || currentUserName == "IDDochev21" || currentUserName == "IDDochev21@codingburgas.bg")
+					
+					//MessageBox.Show($"Current user: {currentUserName.ToLower()}");
+					//MessageBox.Show(modConfig.GetConfig());
+					//MessageBox.Show(modConfig.GetConfig().Contains(currentUserName.ToLower()).ToString());
+					if (modConfig.GetConfig().Contains(currentUserName.ToLower()))
 					{
 						//MessageBox.Show("Starting Chrome");
 						var processInfo = new ProcessStartInfo(browser + ".exe");
