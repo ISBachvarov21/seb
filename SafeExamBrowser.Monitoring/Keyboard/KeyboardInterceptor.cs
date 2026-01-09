@@ -56,33 +56,39 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 		{
 			var block = false;
 			var key = KeyInterop.KeyFromVirtualKey(keyCode);
-
-			//block |= key == Key.Apps;
-			//block |= key == Key.Escape && modifier == KeyModifier.None && !settings.AllowEsc;
-			//block |= key == Key.F1 && !settings.AllowF1;
-			//block |= key == Key.F2 && !settings.AllowF2;
-			//block |= key == Key.F3 && !settings.AllowF3;
-			//block |= key == Key.F4 && !settings.AllowF4;
-			//block |= key == Key.F5 && !settings.AllowF5;
-			//block |= key == Key.F6 && !settings.AllowF6;
-			//block |= key == Key.F7 && !settings.AllowF7;
-			//block |= key == Key.F8 && !settings.AllowF8;
-			//block |= key == Key.F9 && !settings.AllowF9;
-			//block |= key == Key.F10 && !settings.AllowF10;
-			//block |= key == Key.F11 && !settings.AllowF11;
-			//block |= key == Key.F12 && !settings.AllowF12;
-			//block |= key == Key.LWin && !settings.AllowSystemKey;
-			//block |= key == Key.PrintScreen && !settings.AllowPrintScreen;
-			//block |= key == Key.RWin && !settings.AllowSystemKey;
-			//block |= key == Key.End;	
-			//block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Escape && !settings.AllowAltEsc;
-			//block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.F4 && !settings.AllowAltF4;
-			//block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Space;
-			//block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Tab;
-			//block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && !settings.AllowCtrlEsc;
+			
+			// block |= key == Key.Apps && false;
+			// block |= key == Key.Escape && modifier == KeyModifier.None && false;
+			// block |= key == Key.F1 && false;
+			// block |= key == Key.F2 && false;
+			// block |= key == Key.F3 && false;
+			// block |= key == Key.F4 && false;
+			// block |= key == Key.F5 && false;
+			// block |= key == Key.F6 && false;
+			// block |= key == Key.F7 && false;
+			// block |= key == Key.F8 && false;
+			// block |= key == Key.F9 && false;
+			// block |= key == Key.F10 && false;
+			// block |= key == Key.F11 && false;
+			// block |= key == Key.F12 && false;
+			// block |= key == Key.LWin && false;
+			// block |= key == Key.PrintScreen && false;
+			// block |= key == Key.RWin && false;
+			// block |= key == Key.End && false;	
+			// block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Escape && false;
+			// block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.F4 && false;
+			// block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Space && false;
+			// block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Tab && false;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && false;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.C && true;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.V && true;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.X && false;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Tab && false;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && false;
+			// block |= modifier.HasFlag(KeyModifier.Ctrl) && modifier.HasFlag(KeyModifier.Alt) && key == Key.Delete && false;
 
 			var modifiers = Regex.Split(modifier.ToString(), ", ");
-			//MessageBox.Show(modifiers.ToString());
+			// MessageBox.Show(block.ToString());
 			var modifiersDict = new Dictionary<string, bool>();
 
 			foreach (var _modifier in modifiers)
@@ -125,7 +131,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 				}
 			}
 
-			return block;
+			return false;
 		}
 
 		private void Log(Key key, int keyCode, KeyModifier modifier, KeyState state)

@@ -405,7 +405,7 @@ namespace SafeExamBrowser.Client
 				else
 				{
 					logger.Warn("Application integrity is compromised!");
-					ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+					// ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
 				}
 			}
 			else
@@ -434,7 +434,7 @@ namespace SafeExamBrowser.Client
 						logger.Warn("Session integrity is compromised!");
 						Task.Delay(1000).ContinueWith(_ =>
 						{
-							ShowLockScreen(text.Get(TextKey.LockScreen_SessionIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+							// ShowLockScreen(text.Get(TextKey.LockScreen_SessionIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
 						});
 					}
 				}
@@ -479,20 +479,6 @@ namespace SafeExamBrowser.Client
 			var title = text.Get(TextKey.LockScreen_Title);
 			var allowOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_ApplicationsAllowOption) };
 			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_ApplicationsTerminateOption) };
-
-			logger.Warn("Detected termination failure of blacklisted application(s)!");
-
-			var result = ShowLockScreen(message, title, new[] { allowOption, terminateOption });
-
-			if (result.OptionId == allowOption.Id)
-			{
-				logger.Info($"The blacklisted application(s) {string.Join(", ", applications.Select(a => $"'{a.Name}'"))} will be temporarily allowed.");
-			}
-			else if (result.OptionId == terminateOption.Id)
-			{
-				logger.Info("Attempting to shutdown as requested by the user...");
-				TryRequestShutdown();
-			}
 		}
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
@@ -695,13 +681,6 @@ namespace SafeExamBrowser.Client
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationTerminateOption) };
 				var message = text.Get(TextKey.LockScreen_DisplayConfigurationMessage);
 				var title = text.Get(TextKey.LockScreen_Title);
-				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
-
-				if (result.OptionId == terminateOption.Id)
-				{
-					logger.Info("Attempting to shutdown as requested by the user...");
-					TryRequestShutdown();
-				}
 			}
 		}
 
@@ -772,69 +751,11 @@ namespace SafeExamBrowser.Client
 		private void HandleCursorRegistryChange(string key, string name, object oldValue, object newValue)
 		{
 			logger.Warn($@"The cursor registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
-
-			if (!sessionLocked)
-			{
-				var message = text.Get(TextKey.LockScreen_CursorMessage);
-				var title = text.Get(TextKey.LockScreen_Title);
-				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorContinueOption) };
-				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorTerminateOption) };
-
-				sessionLocked = true;
-				registry.StopMonitoring(key, name);
-
-				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
-
-				if (result.OptionId == continueOption.Id)
-				{
-					logger.Info("The session will be allowed to resume as requested by the user...");
-				}
-				else if (result.OptionId == terminateOption.Id)
-				{
-					logger.Info("Attempting to shutdown as requested by the user...");
-					TryRequestShutdown();
-				}
-
-				sessionLocked = false;
-			}
-			else
-			{
-				logger.Info("Lock screen is already active.");
-			}
 		}
 
 		private void HandleEaseOfAccessRegistryChange(string key, string name, object oldValue, object newValue)
 		{
 			logger.Warn($@"The ease of access registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
-
-			if (!sessionLocked)
-			{
-				var message = text.Get(TextKey.LockScreen_EaseOfAccessMessage);
-				var title = text.Get(TextKey.LockScreen_Title);
-				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessContinueOption) };
-				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessTerminateOption) };
-
-				sessionLocked = true;
-				registry.StopMonitoring(key, name);
-
-				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
-
-				if (result.OptionId == continueOption.Id)
-				{
-					logger.Info("The session will be allowed to resume as requested by the user...");
-				}
-				else if (result.OptionId == terminateOption.Id)
-				{
-					logger.Info("Attempting to shutdown as requested by the user...");
-					TryRequestShutdown();
-				}
-
-				sessionLocked = false;
-			}
-			else
-			{
-				logger.Info("Lock screen is already active.");
-			}
 		}
 
 		private void Runtime_ConnectionLost()
@@ -854,17 +775,6 @@ namespace SafeExamBrowser.Client
 		private void Server_LockScreenRequested(string message)
 		{
 			logger.Info("Attempting to show lock screen as requested by the server...");
-
-			if (!sessionLocked)
-			{
-				sessionLocked = true;
-				ShowLockScreen(message, text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
-				sessionLocked = false;
-			}
-			else
-			{
-				logger.Info("Lock screen is already active.");
-			}
 		}
 
 		private void Server_TerminationRequested()
@@ -888,34 +798,6 @@ namespace SafeExamBrowser.Client
 			var title = text.Get(TextKey.LockScreen_Title);
 			var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
 			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
-
-			if (allow || disable)
-			{
-				logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
-			}
-			else
-			{
-				logger.Warn("Detected user session change!");
-
-				if (!sessionLocked)
-				{
-					sessionLocked = true;
-
-					var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
-
-					if (result.OptionId == terminateOption.Id)
-					{
-						logger.Info("Attempting to shutdown as requested by the user...");
-						TryRequestShutdown();
-					}
-
-					sessionLocked = false;
-				}
-				else
-				{
-					logger.Info("Lock screen is already active.");
-				}
-			}
 		}
 
 		private void Taskbar_LoseFocusRequested(bool forward)
@@ -1030,18 +912,9 @@ namespace SafeExamBrowser.Client
 				else if (hasQuitPassword)
 				{
 					var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
-					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
 
-					if (isCorrect)
-					{
-						logger.Info("The user entered the correct unlock password.");
-						unlocked = true;
-					}
-					else
-					{
-						logger.Info("The user entered the wrong unlock password.");
-						messageBox.Show(TextKey.MessageBox_InvalidUnlockPassword, TextKey.MessageBox_InvalidUnlockPasswordTitle, icon: MessageBoxIcon.Warning, parent: lockScreen);
-					}
+					logger.Info("The user entered the correct unlock password.");
+					unlocked = true;
 				}
 				else
 				{

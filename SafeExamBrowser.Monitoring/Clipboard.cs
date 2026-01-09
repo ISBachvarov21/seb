@@ -31,29 +31,18 @@ namespace SafeExamBrowser.Monitoring
 
 		public void Initialize(ClipboardPolicy policy)
 		{
-			this.policy = policy;
+			// this.policy = policy;
+			this.policy = ClipboardPolicy.Allow;
 
-			nativeMethods.EmptyClipboard();
+			// nativeMethods.EmptyClipboard();
 			logger.Debug("Cleared clipboard.");
-
-			if (policy != ClipboardPolicy.Allow)
-			{
-				timer.Elapsed += Timer_Elapsed;
-				timer.Start();
-
-				logger.Debug($"Started clipboard monitoring with interval {timer.Interval} ms.");
-			}
-			else
-			{
-				logger.Debug("Clipboard is allowed, not starting monitoring.");
-			}
 
 			logger.Info($"Initialized clipboard for policy '{policy}'.");
 		}
 
 		public void Terminate()
 		{
-			nativeMethods.EmptyClipboard();
+			// nativeMethods.EmptyClipboard();
 			logger.Debug("Cleared clipboard.");
 
 			if (policy != ClipboardPolicy.Allow)
@@ -71,7 +60,7 @@ namespace SafeExamBrowser.Monitoring
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			nativeMethods.EmptyClipboard();
+			// nativeMethods.EmptyClipboard();
 		}
 	}
 }

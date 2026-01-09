@@ -11,6 +11,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Settings.Security;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -46,6 +47,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			logger.Info("Initializing clipboard...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeClipboard);
+			Context.Settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
 			clipboard.Initialize(Context.Settings.Security.ClipboardPolicy);
 		}
 

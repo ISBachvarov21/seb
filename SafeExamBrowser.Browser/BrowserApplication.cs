@@ -87,6 +87,7 @@ namespace SafeExamBrowser.Browser
 			this.nativeMethods = nativeMethods;
 			this.sessionMode = sessionMode;
 			this.settings = settings;
+			this.settings.UseIsolatedClipboard = false;
 			this.text = text;
 			this.uiFactory = uiFactory;
 			this.windows = new List<BrowserWindow>();
